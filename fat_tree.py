@@ -11,10 +11,10 @@ class MyTopo( Topo ):
     def __init__(self):
 
         # Topology initialization
-        Topo.__init__(self, params={'sopts': {'private_ip'}})
+        Topo.__init__(self)
 
 
-        self.addSwitch("c1", {'private_ip': "10.0.0.2"})
+        self.addSwitch("c1", private_ip="10.0.0.2")
 
         self.addHost("h1")
         self.addHost("h2")

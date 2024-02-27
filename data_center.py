@@ -34,6 +34,8 @@ class MyTopo( Topo ):
         for index in range(1, fan_out * fan_out * fan_out + 1):
             self.hosts_list.append(self.addHost("h{}".format(index)))
 
+        self.addLinks()
+
 
     def addLinks(self):
 

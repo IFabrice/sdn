@@ -20,6 +20,7 @@ class MyTopo( Topo ):
         self.addHost("h2")
         self.addLink('c1', 'h1')
         self.addLink('c1', 'h2')
+
         
 
     def addLinks(self):
@@ -49,6 +50,9 @@ def runExperiment():
     net.start()
     net.pingAll()
     print("Testing bandwidth between h1 and h2")
+    c1 = net.get("c1")
+    print("The private IP for c1 is {}".format(c1.private_ip))
+
     net.stop()
 
 if __name__ == '__main__':

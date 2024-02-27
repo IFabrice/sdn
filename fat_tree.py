@@ -8,12 +8,11 @@ from mininet.util import irange, dumpNodeConnections
 
 class MyTopo( Topo ):
 
-    def __init__(self, k):
+    def __init__(self):
 
         # Topology initialization
         Topo.__init__(self, params={'sopts': {'private_ip'}})
 
-        self.k = k
 
         self.addSwitch("c1", {'private_ip': "10.0.0.2"})
 

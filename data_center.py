@@ -2,6 +2,7 @@
 
 from mininet.topo import Topo
 from mininet.log import setLogLevel
+import sys
 
 class MyTopo( Topo ):
 
@@ -54,7 +55,8 @@ class MyTopo( Topo ):
 
 def runExperiment():
     # create and test the emulator
-    topo = MyTopo()
+    fan_out = sys.argv[1]
+    topo = MyTopo(fan_out)
     net = Mininet(topo)
     net.start()
     print("Pinging all nodes")

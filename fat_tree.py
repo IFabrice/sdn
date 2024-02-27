@@ -11,7 +11,7 @@ class MyTopo( Topo ):
     def __init__(self, k):
 
         # Topology initialization
-        Topo.__init__(self, **params={'sopts': {'private_ip'}})
+        Topo.__init__(self, params={'sopts': {'private_ip'}})
 
         self.k = k
 

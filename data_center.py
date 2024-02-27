@@ -3,7 +3,7 @@
 from mininet.topo import Topo
 from mininet.log import setLogLevel
 import sys
-from minnet.net import Mininet
+from mininet.net import Mininet
 
 class MyTopo( Topo ):
 

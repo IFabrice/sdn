@@ -52,7 +52,7 @@ class MyTopo( Topo ):
                 self.addLink(switch, self.hosts[host_index])
                 host_index += 1
 
-def runExperiment(self):
+def runExperiment():
     # create and test the emulator
     topo = myTopo()
     net = Mininet(topo)

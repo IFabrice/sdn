@@ -51,4 +51,15 @@ class MyTopo( Topo ):
                 self.addLink(switch, self.hosts[host_index])
                 host_index += 1
 
-topos = { 'mytopo': ( lambda: MyTopo() ) }
+def runExperiment(self):
+    # create and test the emulator
+    topo = myTopo()
+    net = Mininet(topo)
+    net.start()
+    print("Pinging all nodes")
+    net.pingAll()
+    net.stop()
+
+if __name__ == '__main__':
+    setLogLevel('info')
+    runExperiment()

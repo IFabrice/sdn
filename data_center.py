@@ -1,6 +1,7 @@
 """ Topology API that emulates a simple data center"""
 
 from mininet.topo import Topo
+from mininet.log import setLogLevel
 
 class MyTopo( Topo ):
 

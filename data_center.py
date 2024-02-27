@@ -4,6 +4,7 @@ from mininet.topo import Topo
 from mininet.log import setLogLevel
 import sys
 from mininet.net import Mininet
+from mininet.util import irange, dumpNodeConnections
 
 class MyTopo( Topo ):
 
@@ -60,7 +61,8 @@ def runExperiment():
     topo = MyTopo(int(fan_out))
     net = Mininet(topo)
     net.start()
-    print("Pinging all nodes")
+    dumpNodeConnections(net.hosts)
+    print("Test network connectivity")
     net.pingAll()
     net.stop()
 

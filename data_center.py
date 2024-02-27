@@ -32,7 +32,7 @@ class MyTopo( Topo ):
         self.hosts_list = []
 
         for index in range(1, fan_out * fan_out * fan_out + 1):
-            self.hosts_list.append(self.addHost("h{}".format(index)))
+            self.hosts_list.append(self.addHost("h{}".format(index), cpu=.5/4))
 
         self.addLinks()
 
@@ -41,20 +41,20 @@ class MyTopo( Topo ):
 
         # Link core switch and aggregation switch 
         for switch in self.aggr_switch:
-            self.addLink(switch, self.core_switch)
+            self.addLink(switch, self.core_switch, bw=10, delay='5ms', loss=1, max_queue_size=1000, use_htb=True)
 
         # Link aggregation switches with edge switches
         edge_switch_index = 0
         for switch in self.aggr_switch:
             for i in range(self.fan_out):
-                self.addLink(switch, self.edge_switch[edge_switch_index])
+                self.addLink(switch, self.edge_switch[edge_switch_index], bw=10, delay='5ms', loss=1, max_queue_size=1000, use_htb=True)
                 edge_switch_index += 1
 
         # Link edge switches with hosts
         host_index = 0
         for switch in self.edge_switch:
             for i in range(self.fan_out):
-                self.addLink(switch, self.hosts_list[host_index])
+                self.addLink(switch, self.hosts_list[host_index], bw=10, delay='5ms', loss=1, max_queue_size=1000, use_htb=True)
                 host_index += 1
 
 def runExperiment():
@@ -66,6 +66,10 @@ def runExperiment():
     dumpNodeConnections(net.hosts)
     print("Test network connectivity")
     net.pingAll()
+    print("Testing bandwidth between h1 and h2")
+    h1, h2 = net.get('h1', 'h2')
+    if h1 and h2:
+        net.iperf((h1, h2))
     net.stop()
 
 if __name__ == '__main__':

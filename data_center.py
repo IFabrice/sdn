@@ -54,7 +54,7 @@ class MyTopo( Topo ):
 
 def runExperiment():
     # create and test the emulator
-    topo = myTopo()
+    topo = MyTopo()
     net = Mininet(topo)
     net.start()
     print("Pinging all nodes")

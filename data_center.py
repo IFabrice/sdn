@@ -6,7 +6,7 @@ import sys
 
 class MyTopo( Topo ):
 
-    def build(self, fan_out):
+    def __init__(self, fan_out):
 
         # Topology initialization
         Topo.__init__(self)

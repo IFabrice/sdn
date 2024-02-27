@@ -28,10 +28,10 @@ class MyTopo( Topo ):
             self.edge_switch.append(self.addSwitch("e{}".format(index)))
 
         # Hosts initialization
-        self.hosts = []
+        self.hosts_list = []
 
         for index in range(1, fan_out * fan_out * fan_out + 1):
-            self.hosts.append(self.addHost("h{}".format(index)))
+            self.hosts_list.append(self.addHost("h{}".format(index)))
 
 
     def addLinks(self):
@@ -51,13 +51,13 @@ class MyTopo( Topo ):
         host_index = 0
         for switch in self.edge_switch:
             for i in range(self.fan_out):
-                self.addLink(switch, self.hosts[host_index])
+                self.addLink(switch, self.hosts_list[host_index])
                 host_index += 1
 
 def runExperiment():
     # create and test the emulator
     fan_out = sys.argv[1]
-    topo = MyTopo(3)
+    topo = MyTopo(fan_out)
     net = Mininet(topo)
     net.start()
     print("Pinging all nodes")

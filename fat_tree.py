@@ -109,7 +109,7 @@ class MyTopo( Topo ):
 def runExperiment():
     # create and test the emulator
     k = sys.argv[1]
-    topo = MyTopo(k)
+    topo = MyTopo(int(k))
     net = Mininet(topo)
     net.start()
     net.pingAll()

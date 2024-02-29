@@ -22,7 +22,7 @@ class MyTopo( Topo ):
         self.all_hosts = []
 
         # initialize core switches
-        for index in range(1, pow(k/2, 2) + 1):
+        for index in range(1, ((k * k) / 4) + 1):
 
             # i represent rows and j represent columns
             i = index / (k/2)

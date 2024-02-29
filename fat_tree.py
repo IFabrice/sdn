@@ -58,7 +58,7 @@ class MyTopo( Topo ):
         # Add links for core and aggregate switches
         for core_index in range(len(self.core_switches)):
             for pod in range(self.k):
-                in_pod_index = (core_index + 1) // (self.k//2)
+                in_pod_index = (core_index) // (self.k//2)
                 aggr_index = pod * self.k//2 + in_pod_index
                 self.addLink(self.core_switches[core_index], self.aggr_switches[aggr_index], port1=pod, port2=self.k//2 + pod)
 

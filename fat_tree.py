@@ -31,7 +31,7 @@ class MyTopo( Topo ):
             # creating dpid in the form "00 : 00 : 00 : 00 : 00 : k : j : i"
             dpid = "00:00:00:00:00:" + str(k) + ":"+ str(i) + str(j)
 
-            self.core_switches.append(self.addSwitch('c{}'.format(index), dpid))
+            self.core_switches.append(self.addSwitch('c{}'.format(index), dpid=dpid))
 
         
         for pod in range(0, k):
@@ -41,10 +41,10 @@ class MyTopo( Topo ):
 
                 # initialization of pid of the form "00 : 00 : 00 : 00 : 00 : pod : switch : 01"
                 aggr_dpid = "00:00:00:00:00:" + str(pod) + ":" + str(index + k//2) + ":" + "01"
-                self.aggr_switches.append(self.addSwitch('a{}'.format(index + pod*k//2), aggr_dpid))
+                self.aggr_switches.append(self.addSwitch('a{}'.format(index + pod*k//2), dpid=aggr_dpid))
 
                 edge_dpid = "00:00:00:00:00:" + str(pod) + ":" + str(index) + ":" + "01"
-                self.edge_switches.append(self.addSwitch("e{}".format(index + pod*k//2), edge_dpid))
+                self.edge_switches.append(self.addSwitch("e{}".format(index + pod*k//2), dpid=edge_dpid))
 
                 self.addEdgeHosts(pod, index)
             

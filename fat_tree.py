@@ -50,7 +50,10 @@ class MyTopo( Topo ):
 
                 self.addEdgeHosts(pod, index)
             
-            self.addAggr_EdgeLinks(init_index)
+            # self.addAggr_EdgeLinks(init_index)
+        
+        for index in range(0, len(self.aggr_switches), self.k//2):
+            self.addAggr_EdgeLinks(index)
         
         # self.addCore_AggrLinks()
 

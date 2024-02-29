@@ -22,11 +22,11 @@ class MyTopo( Topo ):
         self.all_hosts = []
 
         # initialize core switches
-        for index in range(1, ((k * k) / 4) + 1):
+        for index in range(1, ((k * k) // 4) + 1):
 
             # i represent rows and j represent columns
-            i = index / (k/2)
-            j = index % (k/2)
+            i = index // (k//2)
+            j = index % (k//2)
 
             # creating dpid in the form "00 : 00 : 00 : 00 : 00 : k : j : i"
             dpid = "00:00:00:00:00:" + str(k) + ":"+ str(i) + str(j)
@@ -37,18 +37,18 @@ class MyTopo( Topo ):
         for pod in range(0, k):
             
             # initialization of aggregate and edge switches
-            for index in range(0, k/2):
+            for index in range(0, k//2):
 
                 # initialization of pid of the form "00 : 00 : 00 : 00 : 00 : pod : switch : 01"
-                aggr_dpid = "00:00:00:00:00:" + str(pod) + ":" + str(index + k/2) + ":" + "01"
-                self.aggr_switches.append(self.addSwitch('a{}'.format(index + pod*k/2), aggr_dpid))
+                aggr_dpid = "00:00:00:00:00:" + str(pod) + ":" + str(index + k//2) + ":" + "01"
+                self.aggr_switches.append(self.addSwitch('a{}'.format(index + pod*k//2), aggr_dpid))
 
                 edge_dpid = "00:00:00:00:00:" + str(pod) + ":" + str(index) + ":" + "01"
-                self.edge_switches.append(self.addSwitch("e{}".format(index + pod*k/2), edge_dpid))
+                self.edge_switches.append(self.addSwitch("e{}".format(index + pod*k//2), edge_dpid))
 
                 self.addEdgeHosts(pod, index)
             
-            self.addAggr_EdgeLinks(len(self.edge_switches) - k/2 - 1)
+            self.addAggr_EdgeLinks(len(self.edge_switches) - k//2 - 1)
         
         self.addCore_AggrLinks()
 
@@ -58,9 +58,9 @@ class MyTopo( Topo ):
         # Add links for core and aggregate switches
         for core_index in range(len(self.core_switches)):
             for pod in range(self.k):
-                in_pod_index = (core_index + 1) / (self.k/2)
-                aggr_index = pod * self.k/2 + in_pod_index
-                self.addLink(self.core_switches[core_index], self.aggr_switches[aggr_index], port1=pod, port2=self.k/2 + pod)
+                in_pod_index = (core_index + 1) // (self.k//2)
+                aggr_index = pod * self.k//2 + in_pod_index
+                self.addLink(self.core_switches[core_index], self.aggr_switches[aggr_index], port1=pod, port2=self.k//2 + pod)
 
 
     def addAggr_EdgeLinks(self, index):
@@ -76,7 +76,7 @@ class MyTopo( Topo ):
     def addEdgeHosts(self, pod, switch):
         
         # initialize k hosts and link all of them to the current edge switch. Note: hosts ip is in format: "10.pod.switch.ID"
-        for index in range(self.k/2):
+        for index in range(self.k//2):
             ip = "10.{}.{}.{}".format(pod, switch, index + 2)
             self.all_hosts.append(self.addHost("c{}".format(index + 1), ip=ip))
 

@@ -78,7 +78,8 @@ class MyTopo( Topo ):
         # initialize k hosts and link all of them to the current edge switch. Note: hosts ip is in format: "10.pod.switch.ID"
         for index in range(self.k//2):
             ip = "10.{}.{}.{}".format(pod, switch, index + 2)
-            self.all_hosts.append(self.addHost("h{}".format(index + 1), ip=ip))
+            host_index = len(self.all_hosts)
+            self.all_hosts.append(self.addHost("h{}".format(host_index), ip=ip))
 
             # connect edge and host with their respective port numbers
             self.addLink(self.edge_switches[-1], self.all_hosts[-1], port1=index, port2=0)

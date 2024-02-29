@@ -48,7 +48,7 @@ class MyTopo( Topo ):
 
                 self.addEdgeHosts(pod, index)
             
-            # self.addAggr_EdgeLinks(len(self.edge_switches) - k//2 - 1)
+            self.addAggr_EdgeLinks(len(self.edge_switches) - k//2 - 1)
         
         self.addCore_AggrLinks()
 
@@ -60,7 +60,7 @@ class MyTopo( Topo ):
             for pod in range(self.k):
                 in_pod_index = (core_index) // (self.k//2)
                 aggr_index = pod * self.k//2 + in_pod_index
-                self.addLink(self.core_switches[core_index], self.aggr_switches[aggr_index], port1=pod, port2=self.k//2 + pod)
+                self.addLink(self.core_switches[core_index], self.aggr_switches[aggr_index], port1=pod, port2=self.k//2 + pod + core_index)
 
 
     def addAggr_EdgeLinks(self, index):

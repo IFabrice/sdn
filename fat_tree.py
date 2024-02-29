@@ -47,39 +47,64 @@ class MyTopo( Topo ):
                 self.edge_switches.append(self.addSwitch("e{}".format(index + pod*k/2), edge_dpid))
 
                 self.addEdgeHosts(pod, index)
+            
+            self.addAggr_EdgeLinks(len(self.edge_switches) - k/2 - 1)
+        
+        self.addCore_AggrLinks()
+
+    
+    def addCore_AggrLinks(self):
+
+        # Add links for core and aggregate switches
+        for core_index in range(len(self.core_switches)):
+            for pod in range(self.k):
+                in_pod_index = (core_index + 1) / (self.k/2)
+                aggr_index = pod * self.k/2 + in_pod_index
+                self.addLink(self.core_switches[core_index], self.aggr_switches[aggr_index], port1=pod, port2=self.k/2 + pod)
+
+
+    def addAggr_EdgeLinks(self, index):
+        
+        # connect each aggregate switches to corresponding edge switches
+        for aggr_index in range(index, index + self.k):
+            for edge_index in range(index, index + self.k):
+                self.addLink(self.aggr_switches[aggr_index], self.edge_switches[edge_index], port1=aggr_index - index, port2=edge_index - index + self.k)
+
 
 
         
     def addEdgeHosts(self, pod, switch):
         
         # initialize k hosts and link all of them to the current edge switch. Note: hosts ip is in format: "10.pod.switch.ID"
-        for index in range(self.k):
-            ip = "10.{}.{}.{}".format(pod, switch, index)
-            self.all_hosts.append(self.addHost("c{}".format(index), ip=ip))
-            self.addLink(self.edge_switches[-1], self.all_hosts[-1])
+        for index in range(self.k/2):
+            ip = "10.{}.{}.{}".format(pod, switch, index + 2)
+            self.all_hosts.append(self.addHost("c{}".format(index + 1), ip=ip))
+
+            # connect edge and host with their respective port numbers
+            self.addLink(self.edge_switches[-1], self.all_hosts[-1], port1=index, port2=0)
 
 
 
 
-    def addLinks(self):
+    # def addLinks(self):
 
-        # Link core switch and aggregation switch 
-        for switch in self.aggr_switch:
-            self.addLink(switch, self.core_switch, bw=10, delay='5ms', loss=1, max_queue_size=1000, use_htb=True)
+    #     # Link core switch and aggregation switch 
+    #     for switch in self.aggr_switch:
+    #         self.addLink(switch, self.core_switch, bw=10, delay='5ms', loss=1, max_queue_size=1000, use_htb=True)
 
-        # Link aggregation switches with edge switches
-        edge_switch_index = 0
-        for switch in self.aggr_switch:
-            for i in range(self.fan_out):
-                self.addLink(switch, self.edge_switch[edge_switch_index], bw=10, delay='5ms', loss=1, max_queue_size=1000, use_htb=True)
-                edge_switch_index += 1
+    #     # Link aggregation switches with edge switches
+    #     edge_switch_index = 0
+    #     for switch in self.aggr_switch:
+    #         for i in range(self.fan_out):
+    #             self.addLink(switch, self.edge_switch[edge_switch_index], bw=10, delay='5ms', loss=1, max_queue_size=1000, use_htb=True)
+    #             edge_switch_index += 1
 
-        # Link edge switches with hosts
-        host_index = 0
-        for switch in self.edge_switch:
-            for i in range(self.fan_out):
-                self.addLink(switch, self.hosts_list[host_index], bw=10, delay='5ms', loss=1, max_queue_size=1000, use_htb=True)
-                host_index += 1
+    #     # Link edge switches with hosts
+    #     host_index = 0
+    #     for switch in self.edge_switch:
+    #         for i in range(self.fan_out):
+    #             self.addLink(switch, self.hosts_list[host_index], bw=10, delay='5ms', loss=1, max_queue_size=1000, use_htb=True)
+    #             host_index += 1
 
 def runExperiment():
     # create and test the emulator
@@ -87,10 +112,6 @@ def runExperiment():
     net = Mininet(topo)
     net.start()
     net.pingAll()
-    print("Testing bandwidth between h1 and h2")
-    c1 = net.get("c1")
-    print("The private IP for c1 is {}".format(c1.private_ip))
-
     net.stop()
 
 if __name__ == '__main__':

@@ -70,8 +70,6 @@ class MyTopo( Topo ):
 
     def addAggr_EdgeLinks(self, index):
 
-        import pdb
-        pdb.set_trace()
         
         # connect each aggregate switches to corresponding edge switches
         edge_port = self.k//2

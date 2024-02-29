@@ -36,6 +36,8 @@ class MyTopo( Topo ):
         
         for pod in range(0, k):
             
+            init_index = len(self.edge_switches)
+
             # initialization of aggregate and edge switches
             for index in range(0, k//2):
 
@@ -48,7 +50,7 @@ class MyTopo( Topo ):
 
                 self.addEdgeHosts(pod, index)
             
-            self.addAggr_EdgeLinks(len(self.edge_switches) - k//2 - 1)
+            self.addAggr_EdgeLinks(init_index)
         
         # self.addCore_AggrLinks()
 
@@ -66,9 +68,19 @@ class MyTopo( Topo ):
     def addAggr_EdgeLinks(self, index):
         
         # connect each aggregate switches to corresponding edge switches
-        for aggr_index in range(index, index + self.k//2):
-            for edge_index in range(index, index + self.k//2):
-                self.addLink(self.aggr_switches[aggr_index], self.edge_switches[edge_index], port1=aggr_index - index, port2=edge_index - index + self.k)
+        edge_port = self.k//2
+        for aggr_switch in self.aggr_switches[index:-1]:
+            aggr_port = 0
+            for edge_switch in self.edge_switches[index:-1]:
+                self.addLink(aggr_switch, edge_switch, port1=aggr_port, port2=edge_port)
+                aggr_port += 1
+            
+            edge_port += 1
+
+
+        # for aggr_index in range(index, index + self.k//2):
+        #     for edge_index in range(index, index + self.k//2):
+        #         self.addLink(self.aggr_switches[aggr_index], self.edge_switches[edge_index], port1=aggr_index - index, port2=edge_index - index + self.k)
 
 
 

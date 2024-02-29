@@ -69,9 +69,9 @@ class MyTopo( Topo ):
         
         # connect each aggregate switches to corresponding edge switches
         edge_port = self.k//2
-        for aggr_switch in self.aggr_switches[index:-1]:
+        for aggr_switch in self.aggr_switches[index:]:
             aggr_port = 0
-            for edge_switch in self.edge_switches[index:-1]:
+            for edge_switch in self.edge_switches[index:]:
                 self.addLink(aggr_switch, edge_switch, port1=aggr_port, port2=edge_port)
                 aggr_port += 1
             

@@ -50,10 +50,10 @@ class MyTopo( Topo ):
 
                 self.addEdgeHosts(pod, index)
             
-            # self.addAggr_EdgeLinks(init_index)
+            self.addAggr_EdgeLinks(init_index)
         
-        for index in range(0, len(self.aggr_switches), self.k//2):
-            self.addAggr_EdgeLinks(index)
+        # for index in range(0, len(self.aggr_switches), self.k//2):
+        #     self.addAggr_EdgeLinks(index)
         
         # self.addCore_AggrLinks()
 
@@ -69,8 +69,6 @@ class MyTopo( Topo ):
 
 
     def addAggr_EdgeLinks(self, index):
-
-
         
         # connect each aggregate switches to corresponding edge switches
         edge_port = self.k//2
@@ -99,7 +97,7 @@ class MyTopo( Topo ):
             self.all_hosts.append(self.addHost("h{}".format(host_index), ip=ip))
 
             # connect edge and host with their respective port numbers
-            # self.addLink(self.edge_switches[-1], self.all_hosts[-1], port1=index, port2=0)
+            self.addLink(self.edge_switches[-1], self.all_hosts[-1], port1=index, port2=0)
 
 
 

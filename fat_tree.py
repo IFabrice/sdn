@@ -55,7 +55,7 @@ class MyTopo( Topo ):
         # for index in range(0, len(self.aggr_switches), self.k//2):
         #     self.addAggr_EdgeLinks(index)
         
-        # self.addCore_AggrLinks()
+        self.addCore_AggrLinks()
 
     
     def addCore_AggrLinks(self):
